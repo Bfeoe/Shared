@@ -1,5 +1,4 @@
 import os #控制台命令
-from numpy import random
 
 import torch
 import torch.nn as nn
