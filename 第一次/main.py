@@ -88,7 +88,7 @@ def train(model, device, train_loader, optimizer, epoch):
         optimizer.zero_grad() #必须写在loss.backward()前面
         loss.backward()
         optimizer.step()
-        if (batch_idx + 1) % 30 == 0: 
+        if (batch_idx + 1) % 20 == 0: 
             writer.add_scalar(tag="loss", scalar_value=loss, global_step=batch_idx)
         if (batch_idx + 1) % 100 == 0:
             print('正在训练的Epoch: {} [{}/{} ({:.0f}%)]\t损失: {:.4f}'.format(epoch, (batch_idx + 1) * len(data), len(train_loader.dataset),100. * (batch_idx + 1) / len(train_loader), loss.item()))
@@ -110,9 +110,9 @@ def test(model, device, test_loader):
 #————————————————————————————————————————————————————————————————开始———————————————————————————————————————————————————————————————
 #初始化tensorboard
 writer = SummaryWriter()
-#os.system('tensorboard --logdir_spec ep1:D:\Python\Thur_1_2\log1,ep2:D:\Python\Thur_1_2\log2,ep3:D:\Python\Thur_1_2\log3') #指定日志目录
+#os.system('tensorboard --logdir_spec ep1:D:\Python\Thur_1_2\logs\log1,ep2:D:\Python\Thur_1_2\logs\log2,ep3:D:\Python\Thur_1_2\logs\log3') #指定日志目录
 for epoch in range(1, EPOCHS+1):
-    writer = SummaryWriter(log_dir='D:\Python\Thur_1_2\log'+str(epoch))
+    writer = SummaryWriter(log_dir='./logs/log'+str(epoch))
     train(model, DEVICE, train_loader, optimizer, epoch) 
     test(model, DEVICE, test_loader)
     scheduler.step()
