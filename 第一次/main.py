@@ -82,7 +82,6 @@ def train(model, device, train_loader, optimizer, epoch):
     model.train() 
     for batch_idx, (data, label) in enumerate(train_loader): 
         data, label = data.to(device), label.to(device)
-        #————————以下例行公事————————
         output = model(data)
         loss = cross_entropy_loss(output, label)
         optimizer.zero_grad() #必须写在loss.backward()前面
@@ -104,7 +103,7 @@ def test(model, device, test_loader):
             output = model(data)  
             test_loss += cross_entropy_loss(output, label).item()  #nn.CrossEntropyLoss()的时候会自对输入进行一次softmax转换，所以不要事先再写一遍sigmoid或softmax，不然相当于用了两次softmax
             pred = output.data.max(1)[1].to(device) 
-            correct += pred.eq(label.data).sum()   #【两个向量逐元素比较】torch.eq(tensor1, tensor2, out=None) || tensor1.eq(tensor2,out=None)：tensor1对应的元素等于tensor2的元素会返回True，否则返回False。参数out表示为一个数或者是与第一个参数相同形状和类型的tensor。
+            correct += pred.eq(label.data).sum()   #两个向量逐元素比较 torch.eq(tensor1, tensor2, out=None) || tensor1.eq(tensor2,out=None)：tensor1对应的元素等于tensor2的元素会返回True，否则返回False，参数out表示为一个数或者是与第一个参数相同形状和类型的tensor
         print('\n测试集:损失: {:.4f}\t准确率: {}/{} ({:.2f}%)\n'.format(test_loss, correct, len(test_loader.dataset),100. * correct / len(test_loader.dataset)))
 
 #————————————————————————————————————————————————————————————————开始———————————————————————————————————————————————————————————————
